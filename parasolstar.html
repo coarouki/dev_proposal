@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parasol Stars 리메이크 프로젝트 요약 보고서 (단일 프로젝트)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/subsets/Paperlogy-dynamic-subset.css" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* [디자인 테마 매트릭스] - Green/Blue (안정성, 효율 강조) */
+        :root {
+            --primary-color: #28a745; /* 그린 (안정, 효율 강조) */
+            --secondary-color: #e6e6e6; /* 라이트 그레이 */
+            --background-color: #f0f2f5; /* 밝은 배경 */
+            --card-background: #ffffff;
+            --text-color: #212529; /* 다크 */
+            --white-text: #FFFFFF;
+            --heading-font: "Paperlogy", sans-serif;
+            --body-font: "Paperlogy", sans-serif;
+            --sidebar-width: 240px; 
+            --header-height: 60px; 
+        }
+
+        /* ------------------- 기본 스타일 ------------------- */
+        body {
+            font-family: var(--body-font);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex; 
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--heading-font);
+            color: var(--text-color);
+            margin-top: 0;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        /* ------------------- 대시보드 구조 스타일 ------------------- */
+        .Header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: var(--primary-color);
+            color: var(--white-text);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .Header h1 {
+            color: var(--white-text);
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .Sidebar {
+            position: fixed;
+            top: var(--header-height); 
+            left: 0;
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--header-height));
+            background-color: var(--card-background);
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            overflow-y: auto;
+            z-index: 900;
+        }
+
+        .Sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .Sidebar nav ul li a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .Sidebar nav ul li a:hover,
+        .Sidebar nav ul li a.active {
+            background-color: var(--secondary-color);
+            border-left: 4px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .MainContent {
+            margin-left: var(--sidebar-width);
+            padding-top: var(--header-height); 
+            padding: 30px; 
+            flex-grow: 1;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        /* ------------------- 컴포넌트 스타일 ------------------- */
+        
+        /* HeroSection */
+        .HeroSection {
+            padding-bottom: 30px;
+            border-bottom: 2px solid var(--secondary-color);
+            margin-bottom: 30px;
+        }
+
+        .HeroSection h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        
+        /* Card */
+        .Card {
+            background-color: var(--card-background);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .Card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--secondary-color);
+            color: var(--text-color);
+        }
+        
+        /* StatBlock (단일 프로젝트 요약) */
+        .StatBlock {
+            background-color: var(--primary-color);
+            color: var(--white-text);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .StatBlock .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--white-text);
+        }
+        
+        .StatBlock .value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        
+        .StatBlock .label {
+            font-size: 1rem;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        /* ProcessTimeline (간결한 리스트) */
+        .ProcessTimeline {
+            margin-top: 20px;
+            list-style: none;
+            padding-left: 0;
+        }
+        .ProcessTimeline li {
+            padding: 10px 0;
+            border-left: 3px solid #007bff; /* 블루 강조 */
+            padding-left: 15px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .ProcessTimeline li::before {
+            content: "\f067"; /* Plus icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: -10px;
+            top: 15px;
+            background-color: #007bff;
+            color: var(--white-text);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 0.7rem;
+        }
+        .ProcessTimeline strong {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        /* Risk/Conclusion Box */
+        .ConclusionBox {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .ConclusionBox h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .InfoBox {
+            background-color: #d1ecf1; 
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .InfoBox h4 {
+            color: #0c5460;
+            margin-bottom: 5px;
+        }
+
+        /* ------------------- 레이아웃 그리드 ------------------- */
+        .dashboard-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<header class="Header">
+    <h1>Parasol Stars 리메이크 프로젝트 요약</h1>
+</header>
+
+<aside class="Sidebar">
+    <nav>
+        <ul>
+            <li><a href="#section-1"><i class="fas fa-bullseye"></i> 1. 프로젝트 개요</a></li>
+            <li><a href="#section-2"><i class="fas fa-users"></i> 2. 인력 및 예산</a></li>
+            <li><a href="#section-3"><i class="fas fa-calendar-alt"></i> 3. 개발 프로세스 (4개월)</a></li>
+            <li><a href="#section-4"><i class="fas fa-star"></i> 4. 리메이크 핵심</a></li>
+            <li><a href="#section-5"><i class="fas fa-chart-line"></i> 5. 리스크 및 결론</a></li>
+        </ul>
+    </nav>
+</aside>
+
+<main class="MainContent">
+    
+    <div class="HeroSection">
+        <br>
+        <p>목표: 4개월 집중 개발과 최소 인력(4인)으로 'Parasol Stars'의 **퍼즐·액션 기믹**을 안정적으로 구현.</p>
+    </div>
+    
+    <section id="section-1">
+        <h2 style="margin-bottom: 20px;"><i class="fas fa-clipboard-list"></i> 1. 프로젝트 개요</h2>
+        <div class="Card">
+            <p>본 기획은 'Parasol Stars' 단일 리메이크에 집중하며, **비교적 단순한 구조**를 활용하여 **최소 인력(4인) 및 4개월의 일정**으로 개발을 추진합니다.</p>
+            <ul>
+                <li>**장르 특징:** 퍼즐과 액션이 복합된 장르로, **파라솔 기믹**과 **아이템 폭주** 요소가 핵심입니다.</li>
+                <li>**효율성 극대화:** **개발 난이도와 공수가 가장 낮아** 일정 및 비용 통제에 용이합니다.</li>
+                <li>**컨셉:** 오랜 전 컨셉으로 리스크가 존재합니다..</li>
+            </ul>
+        </div>
+    </section>
+
+    <hr>
+    
+    <section id="section-2">
+        <h2 style="margin-bottom: 20px;"><i class="fas fa-money-bill-wave"></i> 2. 인력 및 예산</h2>
+        
+        <div class="InfoBox">
+            <h4><i class="fas fa-user-friends"></i> 핵심 인력 구조 (총 4인)</h4>
+            <p><strong>기획(게임 분석, 리메이크 기획) 1명, 프로그래머(3D,UX/UI) 1명, 아트(컨셉,3D,FX,UX/UI,ANI) 2명</strong>으로 구성된 **최소 핵심 팀**으로 운영됩니다.</p>
+        </div>
+
+        <div class="dashboard-grid-4">
+            <div class="StatBlock" style="background-color: #007bff;">
+                <div class="icon"><i class="fas fa-users"></i></div>
+                <div class="value">18 MM</div>
+                <div class="label">4개월: 4인 기준(추가:2인)</div>
+            </div>
+
+            <div class="StatBlock">
+                <div class="icon"><i class="far fa-calendar-alt"></i></div>
+                <div class="value">4개월</div>
+                <div class="label">집중 개발 기간 (2개월)</div>
+            </div>
+
+            <div class="StatBlock" style="background-color: #28a745;">
+                <div class="icon"><i class="fas fa-won-sign"></i></div>
+                <div class="value">약 1억 원</div>
+                <div class="label">예상 개발 예산 (인건비 기준)</div>
+            </div>
+            
+            <div class="StatBlock" style="background-color: #ffc107;">
+                <div class="icon"><i class="fas fa-search"></i></div>
+                <div class="value">1000만 원</div>
+                <div class="label">QA 공통 비용 (별도)</div>
+            </div>
+        </div>
+
+        <div class="InfoBox">
+            <h4><i class="fas fa-user-friends"></i> 추가 인력 구조 (총 2인)</h4>
+            <p><strong>컨셉 기획 1명, 컨셉아트 1명</strong>으로 1개월 구성 추가.</p>
+            <p><strong> 인평균 2,500만원</strong>, QA 공통 비용은 <strong>닌텐도 스위치 개발키트 구매</strong>비용 포함입니다.</p>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="section-3">
+        <h2 style="margin-bottom: 20px;"><i class="fas fa-tasks"></i> 3. 개발 프로세스 요약 (4개월)</h2>
+        <div class="Card">
+            <ul class="ProcessTimeline">
+                <li>
+                    <strong>1개월차 – 개발 준비 / 기믹 및 비주얼 프로토타입 확보</strong>
+                    <p>파라솔 기믹, 아이템 상호작용 등 **핵심 게임 플레이 로직** 프로토타입 확보. 주인공/적 기본 비주얼 확정.</p>
+                </li>
+                <li>
+                    <strong>2 ~ 3개월차 – 본 개발 / 스테이지 양산 / 콘텐츠 통합</strong>
+                    <p>비교적 적은 스테이지를 효율적으로 양산. 아트팀(2인)은 배경 및 이펙트 작업에 집중. 프로그래머는 안정성 및 물리 구현에 집중.</p>
+                </li>
+                <li>
+                    <strong>4개월차 – 후반 제작 / QA 대응 / 마스터 반영</strong>
+                    <p>최종 난이도 및 밸런싱 조정, **집중 QA 대응**, 데이터 수정 및 마스터 빌드 확정.</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <hr>
+    
+    <section id="section-4">
+        <h2 style="margin-bottom: 20px;"><i class="fas fa-star-half-alt"></i> 4. 리메이크 핵심 특징</h2>
+        
+        <div class="dashboard-grid-2">
+            <div class="Card" style="border-left: 5px solid #007bff;">
+                <h3><i class="fas fa-puzzle-piece" style="color: #007bff;"></i> 핵심 난이도: 기믹의 정확성</h3>
+                <ul>
+                    <li>**컨샙 중요:** 컨셉 재해석으로 귀여운 **3D 모델링** </li>
+                    <li>**단순한 구조:** 스테이지 구조가 다른 타이틀 대비 단순하여 **개발 공수가 낮음.**</li>
+                    <li>**로직 중요:** 파라솔을 이용한 **물방울 생성, 흡수, 발사** 등의 퍼즐/액션 로직 구현의 정확성이 핵심.</li>
+                </ul>
+            </div>
+            
+            <div class="Card" style="border-left: 5px solid #28a745;">
+                <h3><i class="fas fa-cogs" style="color: #28a745;"></i> 리메이크 성공 전략 (4인 역할)</h3>
+                <ul>
+                    <li>**프로그래밍 (1인):** 핵심인 **파라솔 기믹 로직**과 **연속 타격** 시스템 구현에 집중 투입.</li>
+                    <li>**아트 (2인):** 캐릭터/아이템의 **귀여운 감성** 유지 및 배경/이펙트 현대화에 집중.</li>
+                    <li>**일정:** 복잡도가 낮아 **4개월 일정**에서도 안정적인 품질 관리 용이.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+    
+    <section id="section-5">
+        <h2 style="margin-bottom: 20px;"><i class="fas fa-shield-alt"></i> 5. 리스크 및 결론</h2>
+
+        <div class="dashboard-grid-2">
+            <div class="Card" style="border-left: 5px solid #dc3545;">
+                <h3><i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i> 리스크와 대응 전략</h3>
+                <ul>
+                    <li>**리스크 1: 로직 오류:** 파라솔 기믹의 로직 오류가 게임 플레이를 해칠 수 있음.</li>
+                    <li>**대응:** 1개월차에 **핵심 로직 검증**을 완료하고, 이후 기획 변경을 최소화함.</li>
+                    <li>**리스크 2: 인력 부족 (4인):** 병목 현상 발생 위험.</li>
+                    <li>**대응:** 단순한 구조 덕분에 **기획/아트의 업무 분할**이 명확하여, 병목 현상 발생 가능성이 낮음.</li>
+                    <li>**리스크 3:** 컨셉 재설정의 위험.</li>
+                    <li>**대응:** 기획자와 커뮤니케이션으로 선제적 대응.</li>
+                </ul>
+            </div>
+            
+            <div class="ConclusionBox">
+                <h4><i class="fas fa-check-circle"></i> 결론: 프로젝트의 타당성</h4>
+                <ul>
+                    <li>**최소 인력/최소 비용:** **가장 낮은 비용(1.0억)**과 **최소 인원(4인)**으로 진행 가능.</li>                    
+                    <li>**목표:** **퍼즐/액션** 장르 리메이크 및 **개발 6개월 내 출시**.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+</main>
+
+<script>
+    // [코드 안정성 강화 체크리스트]
+    document.addEventListener('DOMContentLoaded', function() {
+        // 사이드바 내비게이션 활성화 로직
+        const sections = document.querySelectorAll('.MainContent section');
+        const navLinks = document.querySelectorAll('.Sidebar nav ul li a');
+
+        function activateNavLink() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').includes(current)) {
+                    a.classList.add('active');
+                }
+            });
+        }
+
+        activateNavLink();
+        window.addEventListener('scroll', activateNavLink);
+    });
+</script>
+
+</body>
+</html>
